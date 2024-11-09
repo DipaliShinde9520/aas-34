@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Book</title>
+
+    <style>
+        /* Overall Body */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f7; /* Soft light background */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Header */
+        h1 {
+            font-size: 2.5rem;
+            color: #4e73df; /* Soft blue color */
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Students Container */
+        .students-container {
+            background-color: #ffffff; /* White background for container */
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow */
+            width: 80%;
+            max-width: 500px;
+        }
+
+        /* Student Card */
+        .students-card {
+            background-color: #f9f9f9; /* Light gray background for cards */
+            border: 1px solid #e2e2e2;
+            padding: 12px 18px;
+            margin: 10px 0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.1rem;
+        }
+
+        .students-card span {
+            font-weight: 500;
+        }
+
+        .students-card span.emoji {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+
+        /* Add Student Container */
+        .add-student-container {
+            background-color: #5a5fdb; /* Blue background for the input area */
+            padding: 15px 30px;
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow */
+        }
+
+        .input-text {
+            width: 60%;
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 25px;
+            border: none;
+            outline: none;
+            margin-right: 10px;
+            background-color: #e1e6fa; /* Light blue background */
+        }
+
+        .btn-action {
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: none;
+            font-size: 1.1rem;
+            color: #fff;
+            background-color: #4e73df; /* Blue background for buttons */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-action:hover {
+            background-color: #3657b0; /* Darker blue on hover */
+        }
+
+        .btn-action:active {
+            background-color: #324a90; /* Even darker blue when clicked */
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>Student Book</h1>
+
+<div class="add-student-container">
+    <input class="input-text" type="text" id="student-name" placeholder="Enter Student's Name">
+    <button type="button" id="add-student" onclick="addStudent()" class="btn-action">Add Student</button>
+    <button type="button" id="remove-student" onclick="removeStudent()" class="btn-action">Remove Student</button>
+</div>
+
+<div id="students-container" class="students-container"></div>
+
+<script>
+
+    // Generate Random Emojis for Fun
+    function getRandomEmojis() {
+        const emojis = ['⭐', '🎉', '🚀', '❤️', '😉', '😎', '🤩', '🤪', '👻', '💀', '🙈', '🙉', '🙊', '🐷', '🐻', '🐻‍❄️', '🐨', '🐼', '🪔', '🕯️', '🌻', '🍁', '🍂', '☠️'];
+        const randomIndex = Math.floor(Math.random() * emojis.length);
+        return emojis[randomIndex];
+    }
+
+    // Initial List of Students
+    const students = ['Stayam', 'Akash', 'Amit', 'Shreyash', 'Geeta', 'Bhumi', 'Punam'];
+
+    // Function to Load and Display Students
+    function loadStudent() {
+        const studentsContainer = document.getElementById("students-container");
+        studentsContainer.innerHTML = ""; // Clear existing students
+
+        // Generate HTML for each student
+        students.forEach((student, index) => {
+            studentsContainer.innerHTML += `<div class="students-card">
+                                                <span class="emoji">${getRandomEmojis()} ${index + 1}) ${student}</span>
+                                            </div>`;
+        });
+    }
+
+    // Initial load of students when the page is opened
+    loadStudent();
+
+    // Add a New Student
+    function addStudent() {
+        const studentInput = document.getElementById('student-name');
+        const studentName = studentInput.value.trim();
+
+        if (studentName === "") {
+            alert("Please enter a student name.");
+            return;
+        }
+
+        students.push(studentName); // Add new student to array
+        studentInput.value = ""; // Clear the input field
+        loadStudent(); // Reload the students
+    }
+
+    // Remove a Student
+    function removeStudent() {
+        const studentInput = document.getElementById('student-name');
+        const studentName = studentInput.value.trim();
+
+        if (studentName === "") {
+            alert("Please enter a student name to remove.");
+            return;
+        }
+
+        const studentIndex = students.findIndex(s => s.toLowerCase() === studentName.toLowerCase());
+
+        if (studentIndex === -1) {
+            alert("Student not found.");
+            return;
+        }
+
+        students.splice(studentIndex, 1); // Remove student from array
+        studentInput.value = ""; // Clear the input field
+        loadStudent(); // Reload the students
+    }
+
+</script>
+
+</body>
+</html>
